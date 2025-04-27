@@ -31,16 +31,3 @@ build/
 
 ### VS Code ###
 .vscode/
-# Java / Maven
-target/
-*.class
-*.log
-*.jar
-*.war
-*.iml
-*.idea/
-*.DS_Store
-
-# System files
-*.swp
-*.tmp

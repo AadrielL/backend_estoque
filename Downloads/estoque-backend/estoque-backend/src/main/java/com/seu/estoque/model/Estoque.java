@@ -1,4 +1,4 @@
-package templates.model;
+package com.seu.estoque.model;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -6,7 +6,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 
 @Entity
-public class Produto {
+public class Estoque {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -14,18 +14,8 @@ public class Produto {
 
     private String nome;
     private int quantidade;
-    private double preco;
 
-    // Construtores, getters e setters
-    public Produto() {}
-
-    public Produto(String nome, int quantidade, double preco) {
-        this.nome = nome;
-        this.quantidade = quantidade;
-        this.preco = preco;
-    }
-
-    // Getters e setters
+    // Getters e Setters
     public Long getId() {
         return id;
     }
@@ -48,13 +38,5 @@ public class Produto {
 
     public void setQuantidade(int quantidade) {
         this.quantidade = quantidade;
-    }
-
-    public double getPreco() {
-        return preco;
-    }
-
-    public void setPreco(double preco) {
-        this.preco = preco;
     }
 }
