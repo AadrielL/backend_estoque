@@ -14,7 +14,11 @@ target/
 .sts4-cache
 
 ### IntelliJ IDEA ###
+<<<<<<< HEAD
 .idea
+=======
+
+>>>>>>> 894631c1bfdb178d8a7e882b69d8ee04a58c6ab3
 *.iws
 *.iml
 *.ipr
@@ -31,3 +35,19 @@ build/
 
 ### VS Code ###
 .vscode/
+<<<<<<< HEAD
+=======
+# Java / Maven
+target/
+*.class
+*.log
+*.jar
+*.war
+*.iml
+*.idea/
+*.DS_Store
+
+# System files
+*.swp
+*.tmp
+>>>>>>> 894631c1bfdb178d8a7e882b69d8ee04a58c6ab3
