@@ -8,10 +8,10 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/estoque")
+@RequestMapping("/item-estoque")
 @CrossOrigin(origins = "*")
 
-public class EstoqueController{
+public class ItemEstoqueController{
 
     @Autowired
     private EstoqueService estoqueService;
@@ -26,21 +26,17 @@ public class EstoqueController{
         return estoqueService.listarPorHospital(hospital);
     }
 
-    // Novo endpoint para buscar por produto
-    @GetMapping("/produto/{produto}")
-    public ResponseEntity<Estoque> buscarPorProduto(@PathVariable String produto) {
-        return estoqueService.buscarPorProduto(produto)
-            .map(ResponseEntity::ok)
-            .orElse(ResponseEntity.notFound().build());
-    }
-
     @PostMapping
     public Estoque salvar(@RequestBody Estoque estoque) {
         return estoqueService.salvar(estoque);
     }
+
+   
+    
 
     @PutMapping("/{id}")
     public Estoque atualizar(@PathVariable Long id, @RequestBody Estoque estoqueAtualizado) {
         return estoqueService.atualizar(id, estoqueAtualizado);
     }
 }
+    
