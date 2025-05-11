@@ -12,55 +12,94 @@ import java.util.Optional;
 public class EstoqueService {
 
     @Autowired
-    private EstoqueRepository estoqueRepository;
+    private EstoqueRepository repository;
 
-    // Listar todos os itens
     public List<Estoque> listarTodos() {
-        return estoqueRepository.findAll();
+        return repository.findAll();
     }
 
-    // Listar por hospital (nome do método igual ao controller)
     public List<Estoque> listarPorHospital(String hospital) {
-        return estoqueRepository.findByHospital(hospital);
+        return repository.findByHospital(hospital);
     }
 
-    // Buscar por ID
     public Optional<Estoque> buscarPorId(Long id) {
-        return estoqueRepository.findById(id);
+        return repository.findById(id);
     }
 
-    // Buscar por produto (nome exato)
-    public Optional<Estoque> buscarPorProduto(String produto) {
-        return estoqueRepository.findByProduto(produto);
+    public Optional<Estoque> buscarPorCategoriaEHospital(String categoria, String hospital) {
+        return repository.findByCategoriaAndHospital(categoria.trim().toLowerCase(), hospital);
     }
 
-    // Adicionar ou atualizar um item
-    public Estoque salvar(Estoque estoque) {
-        return estoqueRepository.save(estoque);
+    public Estoque adicionar(Estoque item) {
+        if (item.getQuantidade() < 0) {
+            throw new RuntimeException("Quantidade não pode ser negativa.");
+        }
+        item.setCategoria(item.getCategoria().trim().toLowerCase());
+        return repository.save(item);
     }
 
-    // Atualizar um item existente (método necessário para o controller)
-    public Estoque atualizar(Long id, Estoque estoqueAtualizado) {
-        Estoque estoqueExistente = estoqueRepository.findById(id)
+    public Estoque atualizar(Long id, Estoque itemAtualizado) {
+        Estoque itemExistente = repository.findById(id)
             .orElseThrow(() -> new RuntimeException("Item não encontrado"));
 
-        estoqueExistente.setProduto(estoqueAtualizado.getProduto());
-        estoqueExistente.setQuantidade(estoqueAtualizado.getQuantidade());
-        estoqueExistente.setHospital(estoqueAtualizado.getHospital());
+        if (itemAtualizado.getQuantidade() < 0) {
+            throw new RuntimeException("Quantidade não pode ser negativa.");
+        }
 
-        return estoqueRepository.save(estoqueExistente);
+        itemExistente.setCategoria(itemAtualizado.getCategoria().trim().toLowerCase());
+        itemExistente.setQuantidade(itemAtualizado.getQuantidade());
+        itemExistente.setHospital(itemAtualizado.getHospital());
+
+        return repository.save(itemExistente);
     }
 
-    // Atualizar quantidade de um produto específico
+    public Estoque somarQuantidade(String categoria, int quantidade, String hospital) {
+        if (quantidade < 0) {
+            throw new RuntimeException("Não é permitido somar valor negativo.");
+        }
+        Optional<Estoque> existente = repository.findByCategoriaAndHospital(categoria.trim().toLowerCase(), hospital);
+        if (existente.isPresent()) {
+            Estoque item = existente.get();
+            int novaQuantidade = item.getQuantidade() + quantidade;
+            item.setQuantidade(novaQuantidade);
+            return repository.save(item);
+        }
+        Estoque novo = new Estoque();
+        novo.setCategoria(categoria.trim().toLowerCase());
+        novo.setQuantidade(quantidade);
+        novo.setHospital(hospital);
+        return repository.save(novo);
+    }
+
+    public Estoque subtrairQuantidade(String categoria, int quantidade, String hospital) {
+        if (quantidade < 0) {
+            throw new RuntimeException("Não é permitido subtrair valor negativo.");
+        }
+        Optional<Estoque> existente = repository.findByCategoriaAndHospital(categoria.trim().toLowerCase(), hospital);
+        if (existente.isPresent()) {
+            Estoque item = existente.get();
+            int novaQuantidade = item.getQuantidade() - quantidade;
+            if (novaQuantidade < 0) {
+                throw new RuntimeException("Quantidade insuficiente! Disponível: " + item.getQuantidade() +
+                    ". Tentativa de retirar: " + quantidade + ". A operação deixaria o estoque negativo.");
+            }
+            item.setQuantidade(novaQuantidade);
+            return repository.save(item);
+        }
+        throw new RuntimeException("Item não encontrado para este hospital.");
+    }
+
     public Estoque atualizarQuantidade(Long id, int quantidade) {
-        Estoque estoque = estoqueRepository.findById(id)
-            .orElseThrow(() -> new RuntimeException("Produto não encontrado"));
-        estoque.setQuantidade(estoque.getQuantidade() + quantidade);
-        return estoqueRepository.save(estoque);
-    }
+        Estoque item = repository.findById(id)
+            .orElseThrow(() -> new RuntimeException("Item não encontrado"));
 
-    // Deletar item (caso queira reativar no futuro)
-    public void deletar(Long id) {
-        estoqueRepository.deleteById(id);
+        int novaQuantidade = item.getQuantidade() + quantidade;
+        if (novaQuantidade < 0) {
+            throw new RuntimeException("Quantidade não pode ficar negativa. Quantidade atual: " +
+                                     item.getQuantidade() + ", Tentativa de redução: " + Math.abs(quantidade));
+        }
+
+        item.setQuantidade(novaQuantidade);
+        return repository.save(item);
     }
 }
