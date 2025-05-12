@@ -9,8 +9,7 @@ import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-
-import jakarta.persistence.EntityNotFoundException; // Import CORRETO
+import jakarta.persistence.EntityNotFoundException;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -29,7 +28,7 @@ public class UsuarioService {
 
     public List<UsuarioDTO> listarTodos() {
         return usuarioRepository.findAll().stream()
-            .map(u -> new UsuarioDTO(u.getId(), u.getUsername(), u.getEmail(), u.getRole()))
+            .map(u -> new UsuarioDTO(u.getId(), u.getUsername(), u.getRole()))
             .collect(Collectors.toList());
     }
 
@@ -54,13 +53,10 @@ public class UsuarioService {
         if (usuarioRepository.findByUsername(cadastroDTO.getUsername()) != null) {
             throw new RuntimeException("Username já existe");
         }
-        if (usuarioRepository.findByEmail(cadastroDTO.getEmail()) != null) {
-            throw new RuntimeException("Email já existe");
-        }
+        
         Usuario usuario = new Usuario();
         usuario.setUsername(cadastroDTO.getUsername());
         usuario.setPassword(passwordEncoder.encode(cadastroDTO.getPassword()));
-        usuario.setEmail(cadastroDTO.getEmail());
         usuario.setRole(Role.VIEWER); // Sempre começa como VIEWER
         usuario.setEnabled(true);
         usuarioRepository.save(usuario);

@@ -1,22 +1,19 @@
-// UsuarioDTO.java (para exibição)
+// UsuarioDTO.java (corrigido)
 package com.seu.estoque.model;
 
 public class UsuarioDTO {
-    private final Long id;           // final para imutabilidade
+    private final Long id;
     private final String username;
-    private final String email;
-    private final Role role;
+    private final String role; // Agora é String!
 
-    public UsuarioDTO(Long id, String username, String email, Role role) {
+    public UsuarioDTO(Long id, String username, Role role) {
         this.id = id;
         this.username = username;
-        this.email = email;
-        this.role = role;
+        this.role = role.name(); // Converte enum para string ("ADMIN" ou "VIEWER")
     }
 
-    // Getters (sem setters pois é somente para exibição)
+    // Getters
     public Long getId() { return id; }
     public String getUsername() { return username; }
-    public String getEmail() { return email; }
-    public Role getRole() { return role; }
+    public String getRole() { return role; }
 }

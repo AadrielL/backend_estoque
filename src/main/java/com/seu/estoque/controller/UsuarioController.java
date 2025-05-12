@@ -23,7 +23,11 @@ public class UsuarioController {
         Usuario usuario = usuarioService.findByUsername(username);
 
         if (usuario != null) {
-            UsuarioDTO usuarioDTO = new UsuarioDTO(usuario.getId(), usuario.getUsername(), usuario.getEmail(), usuario.getRole());
+            UsuarioDTO usuarioDTO = new UsuarioDTO(
+                usuario.getId(), 
+                usuario.getUsername(),  // Agora vai funcionar com o getter adicionado
+                usuario.getRole()
+            );
             return ResponseEntity.ok(usuarioDTO);
         } else {
             return ResponseEntity.notFound().build();

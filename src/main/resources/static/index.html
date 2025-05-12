@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <title>Controle de Enxoval Hospitalar</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<button id="loginBtn" onclick="window.location.href='login.html'">Login</button>
+
+<h1>Controle de Enxoval Hospitalar</h1>
+
+<div id="userInfo"></div>
+<div id="mensagem"></div>
+
+<div id="hospitais-container">
+
+  <div class="hospital-card" data-hospital="Hospital Medical">
+    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSnJxvWpINpzmVdqfVj2e01vpK470wNPjoA4g&s" alt="Hospital Medical" />
+    <p>Hospital Medical</p>
+    <button class="controle-btn" onclick="controleEstoque(event, 'Hospital Medical')">Controle de Estoque</button>
+  </div>
+
+  <div class="hospital-card" data-hospital="Hospital Unimed">
+    <img src="https://www.unimed.coop.br/site/o/sites-theme/images/logo-unimed.png" alt="Hospital Unimed" />
+    <p>Hospital Unimed</p>
+    <button class="controle-btn" onclick="controleEstoque(event, 'Hospital Unimed')">Controle de Estoque</button>
+  </div>
+
+  <div class="hospital-card" data-hospital="Hospital Dona Regina">
+    <img src="https://www.to.gov.br/files/2021/08/2b1e2e2e-2e2e-2e2e-2e2e-2e2e2e2e2e2e.jpg" alt="Hospital Dona Regina" />
+    <p>Hospital Dona Regina</p>
+    <button class="controle-btn" onclick="controleEstoque(event, 'Hospital Dona Regina')">Controle de Estoque</button>
+  </div>
+
+  <div class="hospital-card" data-hospital="Hospital 1">
+    <img src="https://via.placeholder.com/300x200?text=Hospital+1" alt="Hospital 1" />
+    <p>Hospital 1</p>
+    <button class="controle-btn" onclick="controleEstoque(event, 'Hospital 1')">Controle de Estoque</button>
+  </div>
+
+  <div class="hospital-card" data-hospital="Hospital 2">
+    <img src="https://via.placeholder.com/300x200?text=Hospital+2" alt="Hospital 2" />
+    <p>Hospital 2</p>
+    <button class="controle-btn" onclick="controleEstoque(event, 'Hospital 2')">Controle de Estoque</button>
+  </div>
+
+  <div class="hospital-card" data-hospital="Hospital 3">
+    <img src="https://via.placeholder.com/300x200?text=Hospital+3" alt="Hospital 3" />
+    <p>Hospital 3</p>
+    <button class="controle-btn" onclick="controleEstoque(event, 'Hospital 3')">Controle de Estoque</button>
+  </div>
+
+  <div class="hospital-card" data-hospital="Hospital 4">
+    <img src="https://via.placeholder.com/300x200?text=Hospital+4" alt="Hospital 4" />
+    <p>Hospital 4</p>
+    <button class="controle-btn" onclick="controleEstoque(event, 'Hospital 4')">Controle de Estoque</button>
+  </div>
+
+  <div class="hospital-card" data-hospital="Hospital 5">
+    <img src="https://via.placeholder.com/300x200?text=Hospital+5" alt="Hospital 5" />
+    <p>Hospital 5</p>
+    <button class="controle-btn" onclick="controleEstoque(event, 'Hospital 5')">Controle de Estoque</button>
+  </div>
+
+  <div class="hospital-card" data-hospital="Hospital 6">
+    <img src="https://via.placeholder.com/300x200?text=Hospital+6" alt="Hospital 6" />
+    <p>Hospital 6</p>
+    <button class="controle-btn" onclick="controleEstoque(event, 'Hospital 6')">Controle de Estoque</button>
+  </div>
+
+</div>
+
+<script src="estoque.js"></script>
+<script>
+  // Redireciona para estoque.html ao clicar no card (exceto se clicar no botão)
+  document.querySelectorAll('.hospital-card').forEach(function(card) {
+    card.addEventListener('click', function(e) {
+      if (e.target.classList.contains('controle-btn')) return; // Não redireciona se for o botão
+      const nome = card.getAttribute('data-hospital');
+      window.location.href = `estoque.html?hospital=${encodeURIComponent(nome)}`;
+    });
+  });
+
+  // Função do botão Controle de Estoque
+  function controleEstoque(event, hospital) {
+    event.stopPropagation(); // Não deixa o card redirecionar
+    window.location.href = `adicionar.html?hospital=${encodeURIComponent(hospital)}`;
+  }
+</script>
+</body>
+</html>

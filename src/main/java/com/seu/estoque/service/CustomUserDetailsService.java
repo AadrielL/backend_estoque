@@ -1,4 +1,3 @@
-
 package com.seu.estoque.service;
 
 import com.seu.estoque.model.Usuario;
@@ -17,14 +16,14 @@ public class CustomUserDetailsService implements UserDetailsService {
     private UsuarioRepository usuarioRepository;
 
     @Override
-    public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
-        Usuario usuario = usuarioRepository.findByEmail(email);
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+        Usuario usuario = usuarioRepository.findByUsername(username);
         if (usuario == null) {
             throw new UsernameNotFoundException("Usuário não encontrado");
         }
         String role = "ROLE_" + usuario.getRole().name();
         return new org.springframework.security.core.userdetails.User(
-            usuario.getEmail(),
+            usuario.getUsername(),
             usuario.getPassword(),
             Collections.singletonList(new SimpleGrantedAuthority(role))
         );

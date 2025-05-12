@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <title>Controle de Estoque</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<a href="index.html" class="btn-voltar">← Voltar para Hospitais</a>
+
+<h1 id="tituloPagina">Controle de Estoque</h1>
+
+<form id="formAdicionar">
+  <div id="hospitalSelectDiv">
+    <label for="hospital">Selecione o Hospital:</label>
+    <select id="hospital" name="hospital" required>
+      <option value="">Selecione...</option>
+      <option value="Hospital Medical">Hospital Medical</option>
+      <option value="Hospital Unimed">Hospital Unimed</option>
+      <option value="Hospital Dona Regina">Hospital Dona Regina</option>
+      <option value="Hospital 1">Hospital 1</option>
+      <option value="Hospital 2">Hospital 2</option>
+      <option value="Hospital 3">Hospital 3</option>
+      <option value="Hospital 4">Hospital 4</option>
+      <option value="Hospital 5">Hospital 5</option>
+      <option value="Hospital 6">Hospital 6</option>
+    </select>
+  </div>
+
+  <label for="categoria">Categoria:</label>
+  <select id="categoria" name="categoria" required>
+    <option value="">Selecione...</option>
+    <option value="Roupa de Cama">Roupa de Cama</option>
+    <option value="Toalhas">Toalhas</option>
+    <option value="Uniformes">Uniformes</option>
+    <option value="Cobertores">Cobertores</option>
+    <option value="Outros">Outros</option>
+  </select>
+
+  <label for="operacao">Operação:</label>
+  <select id="operacao" name="operacao" required>
+    <option value="adicionar">Adicionar</option>
+    <option value="subtrair">Subtrair</option>
+  </select>
+
+  <label for="quantidade">Quantidade:</label>
+  <input type="number" id="quantidade" name="quantidade" min="1" required>
+
+  <button type="submit" id="botaoSubmit">Confirmar</button>
+
+  <p id="mensagem" style="text-align:center; margin-top:10px;"></p>
+</form>
+
+<script src="estoque.js"></script>
+</body>
+</html>
