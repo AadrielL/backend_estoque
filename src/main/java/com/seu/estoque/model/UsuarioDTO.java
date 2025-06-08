@@ -1,19 +1,19 @@
-// UsuarioDTO.java (corrigido)
 package com.seu.estoque.model;
 
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class UsuarioDTO {
-    private final Long id;
-    private final String username;
-    private final String role; // Agora é String!
 
-    public UsuarioDTO(Long id, String username, Role role) {
-        this.id = id;
-        this.username = username;
-        this.role = role.name(); // Converte enum para string ("ADMIN" ou "VIEWER")
-    }
+    private Long id;
 
-    // Getters
-    public Long getId() { return id; }
-    public String getUsername() { return username; }
-    public String getRole() { return role; }
+    private String nome;
+
+    private String email;
+
+    private String perfil; // Pode ser o nome do enum PerfilUsuario como String
 }

@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <title>Histórico de Estoque</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <a href="index.html" class="btn-voltar">← Voltar para Hospitais</a>
+    <h1>Histórico de Estoque</h1>
+    <div id="mensagem"></div>
+    <table>
+        <thead>
+            <tr>
+                <th>Data/Hora</th>
+                <th>Usuário</th>
+                <th>Ação</th>
+                <th>Quantidade Antes</th>
+                <th>Quantidade Depois</th>
+            </tr>
+        </thead>
+        <tbody id="tabelaHistorico">
+            <!-- Itens carregados via JS -->
+        </tbody>
+    </table>
+
+    <script>
+        const API_URL = "http://localhost:8080/api/historico/estoque"; // Ajuste conforme necessário
+
+        async function carregarHistorico(estoqueId) {
+            try {
+                const resp = await fetch(`${API_URL}/${estoqueId}`);
+                if (resp.ok) {
+                    const historico = await resp.json();
+                    const tbody = document.getElementById('tabelaHistorico');
+                    tbody.innerHTML = '';
+
+                    historico.forEach(item => {
+                        const tr = document.createElement('tr');
+                        tr.innerHTML = `
+                            <td>${new Date(item.dataHora).toLocaleString()}</td>
+                            <td>${item.usuario.nome}</td>
+                            <td>${item.acao}</td>
+                            <td>${item.quantidadeAntes}</td>
+                            <td>${item.quantidadeDepois}</td>
+                        `;
+                        tbody.appendChild(tr);
+                    });
+                } else {
+                    mostrarMensagem('Erro ao carregar histórico', true);
+                }
+            } catch (error) {
+                console.error('Erro:', error);
+                mostrarMensagem('Erro de conexão.', true);
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            const params = new URLSearchParams(window.location.search);
+            const estoqueId = params.get('estoqueId'); // Obtém o ID do estoque da URL
+
+            if (estoqueId) {
+                carregarHistorico(estoqueId); // Chama a função para carregar o histórico
+            } else {
+                mostrarMensagem('ID do estoque não encontrado.', true);
+            }
+        });
+    </script>
+</body>
+</html>

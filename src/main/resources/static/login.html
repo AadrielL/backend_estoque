@@ -16,12 +16,13 @@
 <body>
     <div class="container">
         <h1>Login</h1>
-        <form method="post" action="http://localhost:8080/login">
-            <input type="text" name="username" placeholder="Usuário" required>
-            <input type="password" name="password" placeholder="Senha" required>
-            <button type="submit">Entrar</button>
-        </form>
+       <form method="post" action="http://localhost:8080/login">
+    <input type="email" name="username" placeholder="Email" required>
+    <input type="password" name="password" placeholder="Senha" required>
+    <button type="submit">Entrar</button>
+</form>
         <div class="erro" id="erroMsg"></div>
+        <p><a href="cadastrousuario.html">Criar uma conta</a></p> <!-- Link para a página de cadastro -->
     </div>
     <script>
         if (window.location.search.includes("error")) {

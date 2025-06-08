@@ -1,36 +1,25 @@
 package com.seu.estoque.controller;
 
 import com.seu.estoque.model.Usuario;
-import com.seu.estoque.model.UsuarioDTO;
+import com.seu.estoque.model.UsuarioDTO;        
 import com.seu.estoque.service.UsuarioService;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.Authentication;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/usuario")
+@RequiredArgsConstructor
 public class UsuarioController {
 
-    @Autowired
-    private UsuarioService usuarioService;
+    private final UsuarioService usuarioService;
 
     @GetMapping("/perfil")
-    public ResponseEntity<UsuarioDTO> perfil(Authentication authentication) {
-        String username = authentication.getName();
-        Usuario usuario = usuarioService.findByUsername(username);
-
-        if (usuario != null) {
-            UsuarioDTO usuarioDTO = new UsuarioDTO(
-                usuario.getId(), 
-                usuario.getUsername(),  // Agora vai funcionar com o getter adicionado
-                usuario.getRole()
-            );
-            return ResponseEntity.ok(usuarioDTO);
-        } else {
-            return ResponseEntity.notFound().build();
-        }
+    public ResponseEntity<UsuarioDTO> perfil(@AuthenticationPrincipal Usuario usuario) {
+        UsuarioDTO usuarioDTO = usuarioService.converterParaDTO(usuario);
+        return ResponseEntity.ok(usuarioDTO);
     }
-}
+}   

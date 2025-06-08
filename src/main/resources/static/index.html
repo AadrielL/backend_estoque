@@ -9,67 +9,107 @@
 
 <button id="loginBtn" onclick="window.location.href='login.html'">Login</button>
 
-<h1>Controle de Enxoval Hospitalar</h1>
+  <h1>Controle de Enxoval Hopitalar</h1>
+
 
 <div id="userInfo"></div>
 <div id="mensagem"></div>
 
 <div id="hospitais-container">
 
-  <div class="hospital-card" data-hospital="Hospital Medical">
-    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSnJxvWpINpzmVdqfVj2e01vpK470wNPjoA4g&s" alt="Hospital Medical" />
-    <p>Hospital Medical</p>
-    <button class="controle-btn" onclick="controleEstoque(event, 'Hospital Medical')">Controle de Estoque</button>
+  <div class="hospital-card" data-hospital="Hospital geral de palmas (HGP)">
+    <img src="HGP.jpeg" alt="Hospital geral de palmas (HGP)" />
+    <p>Hospital geral de palmas (HGP)</p>
+    <button class="controle-btn" onclick="controleEstoque(event, 'Hospital geral de palmas (HGP)')">Controle de Estoque</button>
   </div>
 
-  <div class="hospital-card" data-hospital="Hospital Unimed">
-    <img src="https://www.unimed.coop.br/site/o/sites-theme/images/logo-unimed.png" alt="Hospital Unimed" />
-    <p>Hospital Unimed</p>
-    <button class="controle-btn" onclick="controleEstoque(event, 'Hospital Unimed')">Controle de Estoque</button>
+  <div class="hospital-card" data-hospital="Maternidade dona Regina">
+    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSnJxvWpINpzmVdqfVj2e01vpK470wNPjoA4g&s" alt="Maternidade dona Regina" />
+    <p>Maternidade dona Regina</p>
+    <button class="controle-btn" onclick="controleEstoque(event, 'Maternidade dona Regina')">Controle de Estoque</button>
   </div>
 
-  <div class="hospital-card" data-hospital="Hospital Dona Regina">
-    <img src="https://www.to.gov.br/files/2021/08/2b1e2e2e-2e2e-2e2e-2e2e-2e2e2e2e2e2e.jpg" alt="Hospital Dona Regina" />
-    <p>Hospital Dona Regina</p>
-    <button class="controle-btn" onclick="controleEstoque(event, 'Hospital Dona Regina')">Controle de Estoque</button>
+  <div class="hospital-card" data-hospital="Medical">
+    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSnJxvWpINpzmVdqfVj2e01vpK470wNPjoA4g&s" alt="Medical" />
+    <p>Medical</p>
+    <button class="controle-btn" onclick="controleEstoque(event, 'Medical')">Controle de Estoque</button>
   </div>
 
-  <div class="hospital-card" data-hospital="Hospital 1">
-    <img src="https://via.placeholder.com/300x200?text=Hospital+1" alt="Hospital 1" />
-    <p>Hospital 1</p>
-    <button class="controle-btn" onclick="controleEstoque(event, 'Hospital 1')">Controle de Estoque</button>
+  <div class="hospital-card" data-hospital="Hospital santa thereza">
+    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSnJxvWpINpzmVdqfVj2e01vpK470wNPjoA4g&s" alt="Hospital santa thereza" />
+    <p>Hospital santa thereza</p>
+    <button class="controle-btn" onclick="controleEstoque(event, 'Hospital santa thereza')">Controle de Estoque</button>
   </div>
 
-  <div class="hospital-card" data-hospital="Hospital 2">
-    <img src="https://via.placeholder.com/300x200?text=Hospital+2" alt="Hospital 2" />
-    <p>Hospital 2</p>
-    <button class="controle-btn" onclick="controleEstoque(event, 'Hospital 2')">Controle de Estoque</button>
+  <div class="hospital-card" data-hospital="Hospital Jorge saade">
+    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSnJxvWpINpzmVdqfVj2e01vpK470wNPjoA4g&s" alt="Hospital Jorge saade" />
+    <p>Hospital Jorge saade</p>
+    <button class="controle-btn" onclick="controleEstoque(event, 'Hospital Jorge saade')">Controle de Estoque</button>
   </div>
 
-  <div class="hospital-card" data-hospital="Hospital 3">
-    <img src="https://via.placeholder.com/300x200?text=Hospital+3" alt="Hospital 3" />
-    <p>Hospital 3</p>
-    <button class="controle-btn" onclick="controleEstoque(event, 'Hospital 3')">Controle de Estoque</button>
+  <div class="hospital-card" data-hospital="Sinai palmas">
+    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSnJxvWpINpzmVdqfVj2e01vpK470wNPjoA4g&s" alt="Sinai palmas" />
+    <p>Sinai palmas</p>
+    <button class="controle-btn" onclick="controleEstoque(event, 'Sinai palmas')">Controle de Estoque</button>
   </div>
 
-  <div class="hospital-card" data-hospital="Hospital 4">
-    <img src="https://via.placeholder.com/300x200?text=Hospital+4" alt="Hospital 4" />
-    <p>Hospital 4</p>
-    <button class="controle-btn" onclick="controleEstoque(event, 'Hospital 4')">Controle de Estoque</button>
+  <div class="hospital-card" data-hospital="Sinai Araguaina">
+    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSnJxvWpINpzmVdqfVj2e01vpK470wNPjoA4g&s" alt="Sinai Araguaina" />
+    <p>Sinai Araguaina</p>
+    <button class="controle-btn" onclick="controleEstoque(event, 'Sinai Araguaina')">Controle de Estoque</button>
   </div>
 
-  <div class="hospital-card" data-hospital="Hospital 5">
-    <img src="https://via.placeholder.com/300x200?text=Hospital+5" alt="Hospital 5" />
-    <p>Hospital 5</p>
-    <button class="controle-btn" onclick="controleEstoque(event, 'Hospital 5')">Controle de Estoque</button>
+  <div class="hospital-card" data-hospital="Hospital Beneficência de Palmas ( HP)">
+    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSnJxvWpINpzmVdqfVj2e01vpK470wNPjoA4g&s" alt="Hospital Beneficência de Palmas ( HP)" />
+    <p>Hospital Beneficência de Palmas ( HP)</p>
+    <button class="controle-btn" onclick="controleEstoque(event, 'Hospital Beneficência de Palmas ( HP)')">Controle de Estoque</button>
   </div>
 
-  <div class="hospital-card" data-hospital="Hospital 6">
-    <img src="https://via.placeholder.com/300x200?text=Hospital+6" alt="Hospital 6" />
-    <p>Hospital 6</p>
-    <button class="controle-btn" onclick="controleEstoque(event, 'Hospital 6')">Controle de Estoque</button>
+  <div class="hospital-card" data-hospital="Hospital e pronto ped (PP)">
+    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSnJxvWpINpzmVdqfVj2e01vpK470wNPjoA4g&s" alt="Hospital e pronto ped (PP)" />
+    <p>Hospital e pronto ped (PP)</p>
+    <button class="controle-btn" onclick="controleEstoque(event, 'Hospital e pronto ped (PP)')">Controle de Estoque</button>
   </div>
 
+
+  <div class="hospital-card" data-hospital="Clinica Gerare">
+    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSnJxvWpINpzmVdqfVj2e01vpK470wNPjoA4g&s" alt="Clinica Gerare" />
+    <p>Clinica Gerare</p>
+    <button class="controle-btn" onclick="controleEstoque(event, 'Clinica Gerare')">Controle de Estoque</button>
+  </div>
+
+  <div class="hospital-card" data-hospital="Clinica cardioplaza">
+    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSnJxvWpINpzmVdqfVj2e01vpK470wNPjoA4g&s" alt="Clinica cardioplaza" />
+    <p>Clinica cardioplaza</p>
+    <button class="controle-btn" onclick="controleEstoque(event, 'Clinica cardioplaza')">Controle de Estoque</button>
+  </div>
+
+  <div class="hospital-card" data-hospital="Clinica Luz">
+    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSnJxvWpINpzmVdqfVj2e01vpK470wNPjoA4g&s" alt="Clinica Luz" />
+    <p>Clinica Luz</p>
+    <button class="controle-btn" onclick="controleEstoque(event, 'Clinica Luz')">Controle de Estoque</button>
+  </div>
+
+  <div class="hospital-card" data-hospital="Clinica ctd iop">
+    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSnJxvWpINpzmVdqfVj2e01vpK470wNPjoA4g&s" alt="Clinica ctd iop" />
+    <p>Clinica ctd iop</p>
+    <button class="controle-btn" onclick="controleEstoque(event, 'Clinica ctd iop')">Controle de Estoque</button>
+  </div>
+
+  <div class="hospital-card" data-hospital="Clinica isi (TO 02)">
+    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSnJxvWpINpzmVdqfVj2e01vpK470wNPjoA4g&s" alt="Clinica isi (TO 02)" />
+    <p>Clinica isi (TO 02)</p>
+    <button class="controle-btn" onclick="controleEstoque(event, 'Clinica isi (TO 02)')">Controle de Estoque</button>
+  </div>
+
+
+  <div class="hospital-card" data-hospital="Hospital do coração">
+    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSnJxvWpINpzmVdqfVj2e01vpK470wNPjoA4g&s" alt="Hospital do coração" />
+    <p>Hospital do coração</p>
+    <button class="controle-btn" onclick="controleEstoque(event, 'Hospital do coração')">Controle de Estoque</button>
+  </div>
+
+  
 </div>
 
 <script src="estoque.js"></script>

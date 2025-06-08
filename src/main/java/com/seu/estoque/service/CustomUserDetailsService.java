@@ -2,30 +2,27 @@ package com.seu.estoque.service;
 
 import com.seu.estoque.model.Usuario;
 import com.seu.estoque.repository.UsuarioRepository;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.userdetails.*;
+import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
-import java.util.Collections;
-
 @Service
+@RequiredArgsConstructor
 public class CustomUserDetailsService implements UserDetailsService {
 
-    @Autowired
-    private UsuarioRepository usuarioRepository;
+    private final UsuarioRepository usuarioRepository;
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        Usuario usuario = usuarioRepository.findByUsername(username);
-        if (usuario == null) {
-            throw new UsernameNotFoundException("Usuário não encontrado");
-        }
-        String role = "ROLE_" + usuario.getRole().name();
+        Usuario usuario = usuarioRepository.findByEmail(username)
+                .orElseThrow(() -> new UsernameNotFoundException("Usuário não encontrado"));
+
         return new org.springframework.security.core.userdetails.User(
-            usuario.getUsername(),
-            usuario.getPassword(),
-            Collections.singletonList(new SimpleGrantedAuthority(role))
+            usuario.getEmail(),
+            usuario.getSenha(),
+            usuario.getAuthorities() // Use as authorities do Usuario
         );
     }
 }

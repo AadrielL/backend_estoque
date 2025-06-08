@@ -1,19 +1,30 @@
-// UsuarioCadastroDTO.java (para cadastro)
 package com.seu.estoque.model;
 
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.AllArgsConstructor;
+
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class UsuarioCadastroDTO {
-    private String username;
-    private String password;    // Só este DTO tem senha
-    
 
-    // Construtor vazio para deserialização
-    public UsuarioCadastroDTO() {}
+    @NotBlank(message = "Nome é obrigatório")
+    private String nome;
 
-    // Getters e Setters
-    public String getUsername() { return username; }
-    public void setUsername(String username) { this.username = username; }
-    
-    public String getPassword() { return password; }
-    public void setPassword(String password) { this.password = password; }
-    
+    @Email(message = "Email inválido")
+    @NotBlank(message = "Email é obrigatório")
+    private String email;
+
+    @NotBlank(message = "Senha é obrigatória")
+    @Size(min = 6, message = "Senha deve ter no mínimo 6 caracteres")
+    private String senha;
+
+    @NotBlank(message = "Confirmação de senha é obrigatória")
+    private String confirmarSenha;
+
+    private String perfil; // Opcional, pode ser definido no backend para segurança
 }

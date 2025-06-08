@@ -1,105 +1,94 @@
 package com.seu.estoque.service;
 
 import com.seu.estoque.model.Estoque;
+import com.seu.estoque.model.HistoricoEstoque;
+import com.seu.estoque.model.Usuario;
 import com.seu.estoque.repository.EstoqueRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.seu.estoque.repository.HistoricoEstoqueRepository;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
 @Service
+@RequiredArgsConstructor
 public class EstoqueService {
 
-    @Autowired
-    private EstoqueRepository repository;
+    private final EstoqueRepository estoqueRepository;
+    private final HistoricoEstoqueRepository historicoEstoqueRepository;
 
     public List<Estoque> listarTodos() {
-        return repository.findAll();
+        return estoqueRepository.findAll();
     }
 
     public List<Estoque> listarPorHospital(String hospital) {
-        return repository.findByHospital(hospital);
+        return estoqueRepository.findByHospital(hospital);
     }
 
     public Optional<Estoque> buscarPorId(Long id) {
-        return repository.findById(id);
+        return estoqueRepository.findById(id);
     }
 
     public Optional<Estoque> buscarPorCategoriaEHospital(String categoria, String hospital) {
-        return repository.findByCategoriaAndHospital(categoria.trim().toLowerCase(), hospital);
+        return estoqueRepository.findByCategoriaAndHospital(categoria.trim().toLowerCase(), hospital);
     }
 
-    public Estoque adicionar(Estoque item) {
-        if (item.getQuantidade() < 0) {
+    public Estoque criarEstoque(Estoque estoque, Usuario usuario) {
+        if (estoque.getQuantidade() < 0) {
             throw new RuntimeException("Quantidade não pode ser negativa.");
         }
-        item.setCategoria(item.getCategoria().trim().toLowerCase());
-        return repository.save(item);
+        estoque.setCategoria(estoque.getCategoria().trim().toLowerCase());
+        estoque.setUltimoUsuarioAlteracao(usuario);
+        estoque.setDataUltimaAlteracao(LocalDateTime.now());
+        Estoque salvo = estoqueRepository.save(estoque);
+
+        HistoricoEstoque historico = new HistoricoEstoque();
+        historico.setEstoque(salvo);
+        historico.setUsuario(usuario);
+        historico.setAcao("CRIAÇÃO");
+        historico.setQuantidadeAntes(0);
+        historico.setQuantidadeDepois(estoque.getQuantidade());
+        historico.setDataHora(LocalDateTime.now());
+        historicoEstoqueRepository.save(historico);
+
+        return salvo;
     }
 
-    public Estoque atualizar(Long id, Estoque itemAtualizado) {
-        Estoque itemExistente = repository.findById(id)
-            .orElseThrow(() -> new RuntimeException("Item não encontrado"));
+    public Estoque atualizarEstoque(Long id, Integer quantidadeAlterada, String acao, Usuario usuario) {
+        Estoque estoque = estoqueRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Estoque não encontrado"));
 
-        if (itemAtualizado.getQuantidade() < 0) {
-            throw new RuntimeException("Quantidade não pode ser negativa.");
-        }
+        Integer quantidadeAntes = estoque.getQuantidade();
+        Integer quantidadeDepois;
 
-        itemExistente.setCategoria(itemAtualizado.getCategoria().trim().toLowerCase());
-        itemExistente.setQuantidade(itemAtualizado.getQuantidade());
-        itemExistente.setHospital(itemAtualizado.getHospital());
-
-        return repository.save(itemExistente);
-    }
-
-    public Estoque somarQuantidade(String categoria, int quantidade, String hospital) {
-        if (quantidade < 0) {
-            throw new RuntimeException("Não é permitido somar valor negativo.");
-        }
-        Optional<Estoque> existente = repository.findByCategoriaAndHospital(categoria.trim().toLowerCase(), hospital);
-        if (existente.isPresent()) {
-            Estoque item = existente.get();
-            int novaQuantidade = item.getQuantidade() + quantidade;
-            item.setQuantidade(novaQuantidade);
-            return repository.save(item);
-        }
-        Estoque novo = new Estoque();
-        novo.setCategoria(categoria.trim().toLowerCase());
-        novo.setQuantidade(quantidade);
-        novo.setHospital(hospital);
-        return repository.save(novo);
-    }
-
-    public Estoque subtrairQuantidade(String categoria, int quantidade, String hospital) {
-        if (quantidade < 0) {
-            throw new RuntimeException("Não é permitido subtrair valor negativo.");
-        }
-        Optional<Estoque> existente = repository.findByCategoriaAndHospital(categoria.trim().toLowerCase(), hospital);
-        if (existente.isPresent()) {
-            Estoque item = existente.get();
-            int novaQuantidade = item.getQuantidade() - quantidade;
-            if (novaQuantidade < 0) {
-                throw new RuntimeException("Quantidade insuficiente! Disponível: " + item.getQuantidade() +
-                    ". Tentativa de retirar: " + quantidade + ". A operação deixaria o estoque negativo.");
+        if ("ADICAO".equalsIgnoreCase(acao)) {
+            quantidadeDepois = quantidadeAntes + quantidadeAlterada;
+        } else if ("REMOCAO".equalsIgnoreCase(acao)) {
+            quantidadeDepois = quantidadeAntes - quantidadeAlterada;
+            if (quantidadeDepois < 0) {
+                throw new RuntimeException("Quantidade insuficiente! Disponível: " + quantidadeAntes +
+                        ". Tentativa de retirar: " + quantidadeAlterada + ".");
             }
-            item.setQuantidade(novaQuantidade);
-            return repository.save(item);
-        }
-        throw new RuntimeException("Item não encontrado para este hospital.");
-    }
-
-    public Estoque atualizarQuantidade(Long id, int quantidade) {
-        Estoque item = repository.findById(id)
-            .orElseThrow(() -> new RuntimeException("Item não encontrado"));
-
-        int novaQuantidade = item.getQuantidade() + quantidade;
-        if (novaQuantidade < 0) {
-            throw new RuntimeException("Quantidade não pode ficar negativa. Quantidade atual: " +
-                                     item.getQuantidade() + ", Tentativa de redução: " + Math.abs(quantidade));
+        } else {
+            throw new IllegalArgumentException("Ação inválida: " + acao);
         }
 
-        item.setQuantidade(novaQuantidade);
-        return repository.save(item);
+        estoque.setQuantidade(quantidadeDepois);
+        estoque.setUltimoUsuarioAlteracao(usuario);
+        estoque.setDataUltimaAlteracao(LocalDateTime.now());
+        Estoque salvo = estoqueRepository.save(estoque);
+
+        HistoricoEstoque historico = new HistoricoEstoque();
+        historico.setEstoque(salvo);
+        historico.setUsuario(usuario);
+        historico.setAcao(acao.toUpperCase());
+        historico.setQuantidadeAntes(quantidadeAntes);
+        historico.setQuantidadeDepois(quantidadeDepois);
+        historico.setDataHora(LocalDateTime.now());
+        historicoEstoqueRepository.save(historico);
+
+        return salvo;
     }
 }
